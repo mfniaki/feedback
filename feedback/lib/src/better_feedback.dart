@@ -31,6 +31,8 @@ typedef FeedbackBuilder = Widget Function(
   BuildContext,
   OnSubmit,
   ScrollController?,
+  String?,
+  int?,
 );
 
 /// A drag handle to be placed at the top of a draggable feedback sheet.
@@ -110,6 +112,8 @@ class BetterFeedback extends StatefulWidget {
     this.darkTheme,
     this.localizationsDelegates,
     this.localeOverride,
+    this.textFieldPlaceHolder,
+    this.minimumLength,
     this.mode = FeedbackMode.draw,
     this.pixelRatio = 3.0,
   }) : assert(
@@ -175,6 +179,8 @@ class BetterFeedback extends StatefulWidget {
   /// See [RenderRepaintBoundary](https://api.flutter.dev/flutter/rendering/RenderRepaintBoundary/toImage.html)
   /// for information on the underlying implementation.
   final double pixelRatio;
+  final String? textFieldPlaceHolder;
+  final int? minimumLength;
 
   /// Call `BetterFeedback.of(context)` to get an
   /// instance of [FeedbackData] on which you can call `.show()` or `.hide()`
@@ -231,6 +237,8 @@ class _BetterFeedbackState extends State<BetterFeedback> {
               assert(debugCheckHasFeedbackLocalizations(context));
               return FeedbackWidget(
                 isFeedbackVisible: controller.isVisible,
+                minimumLength: widget.minimumLength,
+                textFieldPlaceHolder: widget.textFieldPlaceHolder,
                 drawColors: FeedbackTheme.of(context).drawColors,
                 mode: widget.mode,
                 pixelRatio: widget.pixelRatio,

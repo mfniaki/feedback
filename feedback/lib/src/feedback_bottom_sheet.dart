@@ -12,11 +12,15 @@ class FeedbackBottomSheet extends StatelessWidget {
     required this.feedbackBuilder,
     required this.onSubmit,
     required this.sheetProgress,
+    required this.textFieldPlaceHolder,
+    required this.minimumLength,
   });
 
   final FeedbackBuilder feedbackBuilder;
   final OnSubmit onSubmit;
   final ValueNotifier<double> sheetProgress;
+  final String? textFieldPlaceHolder;
+  final int? minimumLength;
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +30,8 @@ class FeedbackBottomSheet extends StatelessWidget {
           feedbackBuilder: feedbackBuilder,
           onSubmit: onSubmit,
           sheetProgress: sheetProgress,
+          textFieldPlaceHolder: textFieldPlaceHolder,
+          minimumLength: minimumLength,
         ),
       );
     }
@@ -41,11 +47,8 @@ class FeedbackBottomSheet extends StatelessWidget {
           child: Navigator(
             onGenerateRoute: (_) {
               return MaterialPageRoute<void>(
-                builder: (_) => feedbackBuilder(
-                  context,
-                  onSubmit,
-                  null,
-                ),
+                builder: (_) => feedbackBuilder(context, onSubmit, null,
+                    textFieldPlaceHolder, minimumLength),
               );
             },
           ),
@@ -60,12 +63,15 @@ class _DraggableFeedbackSheet extends StatefulWidget {
     required this.feedbackBuilder,
     required this.onSubmit,
     required this.sheetProgress,
+    required this.minimumLength,
+    required this.textFieldPlaceHolder,
   });
 
   final FeedbackBuilder feedbackBuilder;
   final OnSubmit onSubmit;
   final ValueNotifier<double> sheetProgress;
-
+  final String? textFieldPlaceHolder;
+  final int? minimumLength;
   @override
   State<_DraggableFeedbackSheet> createState() =>
       _DraggableFeedbackSheetState();
@@ -135,10 +141,11 @@ class _DraggableFeedbackSheetState extends State<_DraggableFeedbackSheet> {
                       onGenerateRoute: (_) {
                         return MaterialPageRoute<void>(
                           builder: (_) => widget.feedbackBuilder(
-                            context,
-                            widget.onSubmit,
-                            scrollController,
-                          ),
+                              context,
+                              widget.onSubmit,
+                              scrollController,
+                              widget.textFieldPlaceHolder,
+                              widget.minimumLength),
                         );
                       },
                     ),
