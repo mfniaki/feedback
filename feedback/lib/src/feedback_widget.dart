@@ -27,6 +27,8 @@ class FeedbackWidget extends StatefulWidget {
     required this.mode,
     required this.pixelRatio,
     required this.feedbackBuilder,
+    required this.minimumLength,
+    required this.textFieldPlaceHolder,
   }) : assert(
           // This way, we can have a const constructor
           // ignore: prefer_is_empty
@@ -39,7 +41,8 @@ class FeedbackWidget extends StatefulWidget {
   final double pixelRatio;
   final Widget child;
   final List<Color> drawColors;
-
+  final String? textFieldPlaceHolder;
+  final int? minimumLength;
   final FeedbackBuilder feedbackBuilder;
 
   @override
@@ -263,6 +266,8 @@ class FeedbackWidgetState extends State<FeedbackWidget>
                             child: FeedbackBottomSheet(
                               key: const Key('feedback_bottom_sheet'),
                               feedbackBuilder: widget.feedbackBuilder,
+                              textFieldPlaceHolder: widget.textFieldPlaceHolder,
+                              minimumLength: widget.minimumLength,
                               onSubmit: (
                                 String feedback, {
                                 Map<String, dynamic>? extras,

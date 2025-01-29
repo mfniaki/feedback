@@ -36,7 +36,8 @@ class _MyAppState extends State<MyApp> {
       // If custom feedback is not enabled, supply null and the default text
       // feedback form will be used.
       feedbackBuilder: _useCustomFeedback
-          ? (context, onSubmit, scrollController) => CustomFeedbackForm(
+          ? (context, onSubmit, scrollController, placeHolder, maxLength) =>
+              CustomFeedbackForm(
                 onSubmit: onSubmit,
                 scrollController: scrollController,
               )
@@ -51,6 +52,8 @@ class _MyAppState extends State<MyApp> {
           Colors.yellow,
         ],
       ),
+      textFieldPlaceHolder: "Test",
+      minimumLength: 10,
       darkTheme: FeedbackThemeData.dark(),
       localizationsDelegates: [
         GlobalFeedbackLocalizationsDelegate(),

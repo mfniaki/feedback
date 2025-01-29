@@ -8,8 +8,14 @@ Widget simpleFeedbackBuilder(
   BuildContext context,
   OnSubmit onSubmit,
   ScrollController? scrollController,
+  String? textFieldPlaceHolder,
+  int? minimumLength,
 ) =>
-    StringFeedback(onSubmit: onSubmit, scrollController: scrollController);
+    StringFeedback(
+        onSubmit: onSubmit,
+        scrollController: scrollController,
+        textFieldPlaceHolder: textFieldPlaceHolder,
+        minimumLength: minimumLength);
 
 /// A form that prompts the user for feedback with a single text field.
 /// This is the default feedback widget used by [BetterFeedback].
@@ -20,10 +26,18 @@ class StringFeedback extends StatefulWidget {
     super.key,
     required this.onSubmit,
     required this.scrollController,
+    required this.textFieldPlaceHolder,
+    required this.minimumLength,
   });
 
   /// Should be called when the user taps the submit button.
   final OnSubmit onSubmit;
+
+  /// Text field hint
+  final String? textFieldPlaceHolder;
+
+  /// Minimum length to enable button
+  final int? minimumLength;
 
   /// A scroll controller that expands the sheet when it's attached to a
   /// scrollable widget and that widget is scrolled.
@@ -77,8 +91,11 @@ class _StringFeedbackState extends State<StringFeedback> {
                     minLines: 2,
                     controller: controller,
                     textInputAction: TextInputAction.done,
+                    decoration: InputDecoration(
+                        hintText: widget.textFieldPlaceHolder,
+                        hintStyle: TextStyle(color: Colors.grey)),
                     onChanged: (_) {
-                      //print(_);
+                      setState(() {});
                     },
                   ),
                 ],
@@ -90,16 +107,23 @@ class _StringFeedbackState extends State<StringFeedback> {
         ),
         TextButton(
           key: const Key('submit_feedback_button'),
+          onPressed: _shouldEnableButton()
+              ? () => widget.onSubmit(controller.text)
+              : null,
           child: Text(
             FeedbackLocalizations.of(context).submitButtonText,
             style: TextStyle(
-              color: FeedbackTheme.of(context).activeFeedbackModeColor,
+              color: _shouldEnableButton()
+                  ? FeedbackTheme.of(context).activeFeedbackModeColor
+                  : Colors.grey,
             ),
           ),
-          onPressed: () => widget.onSubmit(controller.text),
         ),
         const SizedBox(height: 8),
       ],
     );
   }
+
+  bool _shouldEnableButton() =>
+      controller.text.length >= (widget.minimumLength ?? 0);
 }
